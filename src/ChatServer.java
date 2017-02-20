@@ -28,6 +28,7 @@ public class ChatServer {
         Socket link = null;
         try {
             link = serverSocket.accept();
+            // EDIT SCANNER to InputStream BufferReader
             Scanner input = new Scanner(link.getInputStream());
             PrintWriter output = new PrintWriter(link.getOutputStream(), true);
             int numMessages = 0;

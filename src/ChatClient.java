@@ -46,11 +46,11 @@ public class ChatClient extends Application {
 
         try {
             link = new Socket(host, port);
-
+// EDIT SCANNER INPUT BuffereedReader input?
             Scanner input = new Scanner(link.getInputStream());
 
             PrintWriter output = new PrintWriter(link.getOutputStream(), true);
-
+//EDIT Scanner to BufferedReader
             //Set up stream for keyboard entry
             Scanner userEntry = new Scanner(System.in);
 
