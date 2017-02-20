@@ -18,6 +18,7 @@ import java.util.*;
 // LIST (name1, name2, name3)
 
 // 3 Thread - 1. Chat window 2. send 3. joined list ?
+//Rewrite Scannner to printwriter/bufferreader
 
 
 /**
@@ -60,7 +61,7 @@ public class ChatClient extends Application {
                 message = userEntry.nextLine();
                 output.println(message);
                 response = input.next();
-                System.out.println("/nServer> " + response);
+                System.out.println("\nServer> " + response);
             }
             while (!message.equals("***CLOSE****"));
         }

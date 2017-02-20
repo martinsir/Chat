@@ -4,6 +4,7 @@ import java.io.*;
 
 public class ChatServer {
 
+    //edit all Scanner to bufferedReader ect.
     private static ServerSocket serverSocket;
     private static int port = 1234;
 
