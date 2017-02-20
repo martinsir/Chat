@@ -6,7 +6,7 @@ public class ChatServer {
     // J_OK (From server to client)
     // J_ERR (From server to client. Client not accepted. Duplicate name, please try again with different user name)
     // DATA {USer_Name}: {free text}
-    // Alive
+    // Alive (From)
     public static void main(String[] args) {
 	// write your code here
     }
