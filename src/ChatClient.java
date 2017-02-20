@@ -14,7 +14,7 @@ import java.util.*;
 public class ChatClient extends Application {
 
     private static InetAddress host;
-    private static final int port = 1234;
+    private static int port = 1234;
 
     public static void main(String[] args) {
 
