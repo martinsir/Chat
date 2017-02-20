@@ -7,6 +7,18 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+// JOIN {user_name}, {server_ip}:{server_port}
+    /* (From client to server. The user name is given by the user. User
+      name is max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed.) */
+// J_OK (From server to client)
+// J_ERR (From server to client. Client not accepted. Duplicate name, please try again with different user name)
+// DATA {USer_Name}: {free text}
+// Alive (From client to server. Client sends this heartbeat alive every 1 min)
+// QUIT (From client to server. Client is closing down and leaving group)
+// LIST (name1, name2, name3)
+
+// 3 Thread - 1. Chat window 2. send 3. joined list ?
+
 
 /**
  * Created by Martin H on 20-02-2017.
