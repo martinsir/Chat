@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.*;
+import java.nio.Buffer;
 import java.util.*;
 // CLIENT:  JOIN {user_name}, {server_ip}:{server_port}
          /* (From client to server. The user name is given by the user. User
@@ -48,23 +49,24 @@ public class ChatClient extends Application {
         try {
             socket = new Socket(host, port);
 // EDIT SCANNER INPUT BuffereedReader input?
-            Scanner input = new Scanner(socket.getInputStream());
-
+            //Scanner input = new Scanner(socket.getInputStream());
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 //EDIT Scanner to BufferedReader
             //Set up stream for keyboard entry
-            Scanner userEntry = new Scanner(System.in);
+            //Scanner userEntry = new Scanner(System.in);
+            BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
 
             String message, response;
 
             do {
                 System.out.print("Enter message('QUIT' to exit): ");
-                message = userEntry.nextLine();
+                message = userEntry.readLine();
                 //send message to server on the socket's out stream
 
                 //accept response from server on the socket's input stream
                 output.println(message);
-                response = input.nextLine();
+                response = input.readLine();
                 System.out.println("\nServer> " + response);
             }
             while (!message.equals("QUIT"));

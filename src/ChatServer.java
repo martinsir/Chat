@@ -1,6 +1,8 @@
-import com.sun.deploy.util.SessionState;
-
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.*;
 import java.io.*;
 
@@ -9,8 +11,15 @@ public class ChatServer {
 
     private static ServerSocket serverSocket;
     private static int port = 1234;
+    //
+    // private static ServerSocketChannel ssChanel;
+    //private static Selector selector;
+    /*Above Selector used both for detecting new connections
+    (on the serverSocketChannel) and for detecting incoming data
+    from existing connections (on the SocketChannel)*/
+
     ///Not in use atm
-    private static List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<ClientHandler>());
+    //private static List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<ClientHandler>());
 
     public static void main(String[] args) throws IOException {
 
@@ -25,53 +34,82 @@ public class ChatServer {
             System.exit(1);
         }
         do {
-
             //handleClient();
-
             //wait for client...
             Socket clientSocket = serverSocket.accept();
-            System.out.println("\nNew client accepted.\n"+"IP: "+clientSocket.getInetAddress()+"\nPort:"+clientSocket.getPort());
-
+            System.out.println("\nNew client accepted:\n"+"IP: "+clientSocket.getInetAddress()+"\nPort: "+clientSocket.getPort());
             /*Create a thread to handle communication with
             this client and pass the constructor  for this
             thread a reference to the relevant socket...*/
-
             ClientHandler handler = new ClientHandler(clientSocket);
             handler.start();
-            clients.add(handler);
+
+            //clients.add(handler);
 
         } while (true);
 
 
     }
 
-    /*private static void handleClient() {
-        Socket link = null;
+    /*public static void broadcastMessage(String chatName, ByteBuffer buffer) {
+        String messagePrefix = chatName + ": ";
+        byte[] messagePrefixBytes = messagePrefix.getBytes();
+        final byte[] CR ="\n".getBytes(); //Carriage return.
         try {
-            link = serverSocket.accept();
+            int messageSize = buffer.position();
+            byte[] messageBytes = buffer.array();
+            byte [] messageBytesCopy = new byte[messageSize];
+            for (int i = 0; i < messageSize; i++) {
+                messageBytesCopy[i]=messageBytes[i];
+            }
+            buffer.clear();
+            //Concatenate message text onto message prefix
+            buffer.put(messagePrefixBytes);
+            for (int i = 0; i < messageSize; i++) {
+                buffer.put(messageBytesCopy[i]);
+            }
+            buffer.put(CR);
+            SocketChannel chatSocketChannel;
+            for (ChatUser chatUser:allUser) {
+                chatSocketChannel = chatUser.getSocketChannel();
+                buffer.flip();
+                //write full message (with user's name)
+                chatSocketChannel.write(buffer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+*/
+    //OLD STUFF
+    private static void handleClient() {
+
+        /*try {
+
             // EDIT SCANNER to InputStream BufferReader
-            Scanner input = new Scanner(link.getInputStream());
-            PrintWriter output = new PrintWriter(link.getOutputStream(), true);
+            BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true);
             int numMessages = 0;
-            String message = input.nextLine();
-            while (!message.equals("***CLOSE***")) {
+            String message = input.readLine();
+            while (!message.equals(null)) {
                 System.out.println("Message received.");
                 numMessages++;
                 output.println("Message " + numMessages + ": " + message);
-                message = input.nextLine();
+                message = input.readLine();
             }
             output.println(numMessages + " messages received.");
         } catch (IOException io2) {
             io2.printStackTrace();
         } finally {
             try {
-                System.out.println("n* Closing connection...*");
-                link.close();
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("\n Closing connection...*");
+                clientSocket.close();
             } catch (IOException ioe3) {
                 System.out.println("Unable to disconnect!");
                 System.exit(1);
-            }
 
-        } // finally END
-    }*/ // handlerClient method END
-}
+            }*/
+        } //handleClient END
+    }
+
