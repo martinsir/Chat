@@ -58,7 +58,7 @@ public class ChatClient extends Application {
             String message, response;
 
             do {
-                System.out.print("Enter message('QUIT to exit'): ");
+                System.out.print("Enter message('QUIT' to exit): ");
                 message = userEntry.nextLine();
                 //send message to server on the socket's out stream
 

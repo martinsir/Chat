@@ -1,17 +1,19 @@
+import com.sun.deploy.util.SessionState;
+
 import java.net.*;
 import java.util.*;
 import java.io.*;
 
 public class ChatServer {
-
     //edit all Scanner to bufferedReader ect.
+
     private static ServerSocket serverSocket;
     private static int port = 1234;
+    private static List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<ClientHandler>());
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println("Opening port...\n");
-
+        //System.out.println("Opening port...\n");
         try {
 
             serverSocket = new ServerSocket(port);
@@ -22,19 +24,23 @@ public class ChatServer {
             System.exit(1);
         }
         do {
+
             //handleClient();
 
             //wait for client...
             Socket clientSocket = serverSocket.accept();
-            System.out.println("\nNew client accepted.\n");
+            System.out.println("\nNew client accepted.\n"+"IP: "+clientSocket.getInetAddress()+"\nPort:"+clientSocket.getPort());
 
             /*Create a thread to handle communication with
             this client and pass the constructor  for this
-            thread a referance to the relevant socket...*/
+            thread a reference to the relevant socket...*/
+
             ClientHandler handler = new ClientHandler(clientSocket);
             handler.start();
+            clients.add(handler);
 
         } while (true);
+
 
     }
 
