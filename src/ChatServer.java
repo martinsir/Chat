@@ -10,7 +10,7 @@ public class ChatServer {
     //edit all Scanner to bufferedReader ect.
 
     private static ServerSocket serverSocket;
-    private static int port = 1234;
+    private static int port = 2234;
     //
     // private static ServerSocketChannel ssChanel;
     //private static Selector selector;
@@ -46,7 +46,7 @@ public class ChatServer {
 
             //clients.add(handler);
 
-        } while (true);
+        } while(true);
 
 
     }
