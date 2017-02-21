@@ -8,23 +8,37 @@ public class ChatServer {
     private static ServerSocket serverSocket;
     private static int port = 1234;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         System.out.println("Opening port...\n");
 
         try {
+
             serverSocket = new ServerSocket(port);
+
         } catch (IOException io) {
+
             System.out.println("Unable to attach to port\n" + io);
             System.exit(1);
         }
         do {
-            handleClient();
+            //handleClient();
+
+            //wait for client...
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("\nNew client accepted.\n");
+
+            /*Create a thread to handle communication with
+            this client and pass the constructor  for this
+            thread a referance to the relevant socket...*/
+            ClientHandler handler = new ClientHandler(clientSocket);
+            handler.start();
+
         } while (true);
 
     }
 
-    private static void handleClient() {
+    /*private static void handleClient() {
         Socket link = null;
         try {
             link = serverSocket.accept();
@@ -51,6 +65,6 @@ public class ChatServer {
                 System.exit(1);
             }
 
-        }
-    }
+        } // finally END
+    }*/ // handlerClient method END
 }

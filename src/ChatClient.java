@@ -18,6 +18,7 @@ import java.util.*;
 // SERVER:  LIST (name1, name2, name3)
 
 // 3 Thread - 1. Chat window 2. send 3. joined list ?
+// Multithreaded servers?
 //Rewrite Scannner to printwriter/bufferreader
 
 
@@ -38,18 +39,18 @@ public class ChatClient extends Application {
             System.out.println("Host ID not found!");
             System.exit(1);
         }
-        accessServer();
+        sendMessages();
     }
 
-    private static void accessServer() {
-        Socket link = null;
+    private static void sendMessages() {
+        Socket socket = null;
 
         try {
-            link = new Socket(host, port);
+            socket = new Socket(host, port);
 // EDIT SCANNER INPUT BuffereedReader input?
-            Scanner input = new Scanner(link.getInputStream());
+            Scanner input = new Scanner(socket.getInputStream());
 
-            PrintWriter output = new PrintWriter(link.getOutputStream(), true);
+            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 //EDIT Scanner to BufferedReader
             //Set up stream for keyboard entry
             Scanner userEntry = new Scanner(System.in);
@@ -57,21 +58,24 @@ public class ChatClient extends Application {
             String message, response;
 
             do {
-                System.out.println("Enter message: ");
+                System.out.print("Enter message('QUIT to exit'): ");
                 message = userEntry.nextLine();
+                //send message to server on the socket's out stream
+
+                //accept response from server on the socket's input stream
                 output.println(message);
-                response = input.next();
+                response = input.nextLine();
                 System.out.println("\nServer> " + response);
             }
-            while (!message.equals("***CLOSE****"));
+            while (!message.equals("QUIT"));
         }
         catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
         finally {
             try {
-                System.out.println("\n* Closing connection... *");
-                link.close();
+                System.out.println("\nClosing connection... ");
+                socket.close();
             }
             catch (IOException ioEX) {
                 System.out.println("Unable to disconnect!");
