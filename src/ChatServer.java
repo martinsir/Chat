@@ -9,6 +9,7 @@ public class ChatServer {
 
     private static ServerSocket serverSocket;
     private static int port = 1234;
+    ///Not in use atm
     private static List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<ClientHandler>());
 
     public static void main(String[] args) throws IOException {
